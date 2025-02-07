@@ -8,7 +8,7 @@ import axios from 'axios';
 import { API_URL } from '../features/dashboardSlice';
 
 const Login = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
@@ -19,21 +19,21 @@ const Login = () => {
       const response = await axios.get(API_URL);
       const users = response.data;
 
-      const user = users.find(user => user.email === username && user.password === password);
+      const user = users.find(user => user.email === email && user.password === password);
 
       if (user) {
         showSuccessToast('Login successful');
-        localStorage.setItem('userId', user.id); // Store user ID in local storage
+        localStorage.setItem('userId', user.id);
         setTimeout(() => {
           navigate('/employee');
         }, 1000);
-      } else if (username === 'admin' && password === 'admin123') {
+      } else if (email === 'admin@gmail.com' && password === 'admin123') {
         showSuccessToast('Login successful');
         setTimeout(() => {
           navigate('/admin');
         }, 1000);
       } else {
-        showErrorToast('Invalid username or password');
+        showErrorToast('Invalid email or password');
       }
     } catch (error) {
       showErrorToast('Error fetching user data');
@@ -47,13 +47,13 @@ const Login = () => {
         <h2 className="text-3xl font-semibold text-center text-gray-700 mb-6">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-5">
-            <label htmlFor="username" className="block text-sm font-medium text-gray-600">Username</label>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-600">Email</label>
             <input
-              type="text"
-              id="username"
-              placeholder="Enter your username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              type="email"
+              id="email"
+              placeholder="Enter your Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full mt-2 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
               required
             />
@@ -77,7 +77,7 @@ const Login = () => {
             Login
           </button>
           <div className="mt-4 text-center">
-            <a href="#" className="text-sm text-indigo-600 hover:text-indigo-700">Forgot Password?</a>
+            <a href="#" className="text-sm text-indigo-600 hover:text-indigo-700">admin/admin123</a>
           </div>
         </form>
       </div>
