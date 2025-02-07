@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+/* Tailwind styling for custom toasts */
+.toast-success {
+    @apply bg-green-600 text-white rounded-lg shadow-lg font-bold px-4 py-2;
+  }
+  
+  .toast-error {
+    @apply bg-red-600 text-white rounded-lg shadow-lg font-bold px-4 py-2;
+  }
+  
