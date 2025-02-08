@@ -9,9 +9,11 @@ import {
 import { showSuccessToast, showErrorToast } from "../ui/toastService";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const employees = useSelector((state) => state.dashboard.employees) || [];
   const [newEmployee, setNewEmployee] = useState({ name: "", email: "", password: "" });
   const [newTask, setNewTask] = useState({ employeeId: "", task: "", description: "" });
@@ -64,11 +66,27 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('userId');
+    showSuccessToast('Logout successful!');
+    setTimeout(() => {
+      navigate('/');
+    }, 1000);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="bottom-right" autoClose={3000} />
       <div className="container mx-auto p-6">
-        <h1 className="text-4xl font-bold text-center text-blue-600 mb-8">Admin Dashboard</h1>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-4xl font-bold text-blue-600">Admin Dashboard</h1>
+          <button
+            className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition duration-300"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        </div>
 
         {/* Add New Employee */}
         <div className="bg-white shadow-md rounded-lg p-6 mb-8">

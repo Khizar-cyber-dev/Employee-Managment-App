@@ -4,10 +4,12 @@ import { showSuccessToast, showErrorToast } from '../ui/toastService';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { API_URL } from '../features/dashboardSlice';
+import { useNavigate } from 'react-router-dom';
 
 const EmployeeDashboard = () => {
   const [tasks, setTasks] = useState([]);
   const userId = localStorage.getItem('userId');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -40,16 +42,30 @@ const EmployeeDashboard = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('userId');
+    showSuccessToast('Logout successful!');
+    setTimeout(() => {
+      navigate('/');
+    }, 1000);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="bottom-right" autoClose={3000} />
       <div className="container mx-auto p-6">
-        {/* Header */}
-        <h1 className="text-4xl font-extrabold text-center text-blue-600 mb-8">
-          Employee Dashboard
-        </h1>
-        
-        {/* Task Container */}
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-4xl font-extrabold text-center text-blue-600 mb-8">
+            Employee Dashboard
+          </h1>
+          <button
+            className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition duration-300"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        </div>
+
         <div className="bg-white shadow-lg rounded-lg p-6 space-y-6">
           <h2 className="text-2xl font-semibold text-gray-700 mb-4">Your Tasks</h2>
           
