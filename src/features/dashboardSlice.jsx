@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const API_URL = 'http://localhost:3001/employees';
+export const API_URL = 'https://67a70bc1510789ef0dfcd07f.mockapi.io/Employees/Employees';
 
 const initialState = {
     employees: [],
@@ -22,16 +22,14 @@ export const addEmployee = createAsyncThunk('dashboard/addEmployee', async (newE
     return response.data;
 });
 
-
 // Async thunk to assign a task to an employee
 export const assignTask = createAsyncThunk('dashboard/assignTask', async ({ employeeId, task }) => {
     const response = await axios.get(`${API_URL}/${employeeId}`);
     const employee = response.data;
     const updatedTasks = employee.tasks ? [...employee.tasks, task] : [task];
-    await axios.patch(`${API_URL}/${employeeId}`, { tasks: updatedTasks });
+    const updatedResponse = await axios.put(`${API_URL}/${employeeId}`, { tasks: updatedTasks });
     return { id: employeeId, task };
 });
-
 
 // Async thunk to delete an employee
 export const deleteEmployee = createAsyncThunk('dashboard/deleteEmployee', async (employeeId) => {
@@ -77,5 +75,4 @@ const dashboardSlice = createSlice({
 });
 
 export const { actions } = dashboardSlice;
-//export { fetchEmployees, addEmployee, assignTask, deleteEmployee };
 export default dashboardSlice.reducer;

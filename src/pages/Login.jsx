@@ -77,7 +77,7 @@ const Login = () => {
             Login
           </button>
           <div className="mt-4 text-center">
-            <a href="#" className="text-sm text-indigo-600 hover:text-indigo-700">admin/admin123</a>
+            <a href="#" className="text-sm text-indigo-600 hover:text-indigo-700">admin@gmail.com/admin123</a>
           </div>
         </form>
       </div>

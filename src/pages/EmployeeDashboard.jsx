@@ -13,7 +13,7 @@ const EmployeeDashboard = () => {
     const fetchTasks = async () => {
       try {
         const response = await axios.get(`${API_URL}/${userId}`);
-        setTasks(response.data.tasks);
+        setTasks(response.data.tasks || []); // Ensure tasks is always an array
       } catch (error) {
         showErrorToast('Failed to fetch tasks.');
       }
@@ -26,7 +26,7 @@ const EmployeeDashboard = () => {
     try {
       const completedTask = tasks[taskIndex];
       const updatedTasks = tasks.filter((_, index) => index !== taskIndex);
-      await axios.patch(`${API_URL}/${userId}`, { tasks: updatedTasks, completedTask });
+      await axios.put(`${API_URL}/${userId}`, { tasks: updatedTasks, completedTask });
       setTasks(updatedTasks);
 
       // Increment completed task count for the specific employee in local storage
@@ -68,10 +68,10 @@ const EmployeeDashboard = () => {
                   </div>
                   
                   <button
-                    className="ml-4 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all"
+                    className="ml-4 bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all"
                     onClick={() => completeTask(index)}
                   >
-                    Delete Task
+                    Completed Task
                   </button>
                 </li>
               ))}
